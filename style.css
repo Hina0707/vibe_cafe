@@ -1,0 +1,328 @@
+/* 전체 크기에 테두리와 패딩을 포함합니다. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 32px 16px;
+  background: #faf6f0;
+  color: #49382c;
+  font-family: '맑은 고딕', sans-serif;
+  line-height: 1.6;
+}
+
+/* 카페 소개와 주문서를 가운데 배치합니다. */
+header,
+main {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 64px;
+  line-height: 1.2;
+  animation: logo-sway 4s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+/* 카페 로고가 천천히 좌우로 흔들립니다. */
+@keyframes logo-sway {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
+
+header h2 {
+  margin: 12px 0 4px;
+  color: #6b4226;
+  font-size: 30px;
+}
+
+header p {
+  margin: 0;
+  color: #876b55;
+}
+
+form {
+  padding: 28px;
+  border: 1px solid #eadfD2;
+  border-radius: 20px;
+  background: #fffdf9;
+  box-shadow: 0 8px 28px rgb(107 66 38 / 10%);
+}
+
+form > div:not(#order-confirmation) {
+  margin-bottom: 20px;
+}
+
+label,
+legend {
+  font-weight: 700;
+}
+
+form > div > label {
+  display: block;
+  margin-bottom: 7px;
+}
+
+/* 텍스트 입력칸과 선택칸의 공통 스타일입니다. */
+input:not([type='radio']):not([type='checkbox']),
+select,
+textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #d9cabb;
+  border-radius: 8px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* 키보드와 마우스로 입력칸을 선택하면 강조합니다. */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #6b4226;
+  box-shadow: 0 0 0 3px rgb(107 66 38 / 15%);
+}
+
+/* 기존 입력 요소와 라벨을 두 열씩 묶어 가로로 배치합니다. */
+fieldset {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px 8px;
+  min-width: 0;
+  margin: 0 0 20px;
+  padding: 12px;
+  border: 1px solid #e5d8ca;
+  border-radius: 10px;
+}
+
+legend {
+  padding: 0 6px;
+  color: #6b4226;
+}
+
+input[type='radio'],
+input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #6b4226;
+  cursor: pointer;
+}
+
+fieldset label {
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+/* 계산된 금액은 주문 버튼 바로 위에서 강조합니다. */
+#estimated-price {
+  margin: 24px 0 16px;
+  color: #6b4226;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #6b4226;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+button[type='submit'] {
+  background: #6b4226;
+  color: #fff;
+}
+
+button[type='submit']:hover {
+  background: #855638;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgb(107 66 38 / 20%);
+}
+
+/* 움직임 줄이기 설정을 사용하는 경우 애니메이션을 생략합니다. */
+@media (prefers-reduced-motion: reduce) {
+  header h1 { animation: none; }
+  button { transition: none; }
+  button[type='submit']:hover { transform: none; }
+}
+
+button[type='reset'] {
+  margin-top: 10px;
+  background: #fff;
+  color: #6b4226;
+}
+
+button[type='reset']:hover {
+  background: #faf6f0;
+}
+
+button:focus-visible {
+  outline: 3px solid #bb9678;
+  outline-offset: 3px;
+}
+
+/* 저장 중에는 버튼이 비활성 상태임을 보여줍니다. */
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 주문 확인 메시지는 연두색 상자로 표시합니다. */
+#order-confirmation {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #eaf5df;
+  color: #2f6435;
+  overflow-wrap: anywhere;
+}
+
+/* 숨김 클래스와 HTML 숨김 속성을 모두 지원합니다. */
+.hidden,
+[hidden] {
+  display: none !important;
+}
+
+/* 작은 화면에서는 여백을 줄여 주문서를 편하게 읽도록 합니다. */
+/* 탭은 선택된 메뉴에 갈색 밑줄을 표시합니다. */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  border-bottom: 1px solid #e5d8ca;
+}
+.tab-button {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 4px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #9b7c65;
+}
+.tab-button.active {
+  border-bottom-color: #6b4226;
+  color: #6b4226;
+}
+.order-count {
+  display: inline-block;
+  min-width: 24px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #6b4226;
+  color: #fff;
+  font-size: 12px;
+}
+
+/* 새 주문이 접수되면 건수 배지가 잠깐 통통 튑니다. */
+.badge-bounce {
+  animation: badge-bounce 1.2s ease-in-out;
+}
+@keyframes badge-bounce {
+  0%, 50%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: none;
+  }
+  25%, 75% {
+    transform: translateY(-12px) scale(1.3);
+    background: #a56b3f;
+    box-shadow: 0 4px 12px rgb(107 66 38 / 35%);
+  }
+}
+#drink-summary {
+  color: #876b55;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge-bounce { animation: none; }
+}
+
+/* 주문별 카드와 취소 버튼을 표시합니다. */
+#history-panel {
+  padding: 20px;
+  border-radius: 20px;
+  background: #fffdf9;
+  box-shadow: 0 8px 28px rgb(107 66 38 / 10%);
+}
+.order-card {
+  position: relative;
+  margin-bottom: 14px;
+  padding: 16px;
+  border-left: 4px solid #6b4226;
+  border-radius: 8px;
+  background: #faf6f0;
+  overflow-wrap: anywhere;
+}
+.order-card p { margin: 0 0 8px; }
+.order-card-heading {
+  padding-right: 58px;
+  color: #6b4226;
+  font-weight: 700;
+}
+.order-card .order-card-note {
+  margin-bottom: 0;
+  color: #876b55;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+.cancel-order {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: auto;
+  padding: 4px 8px;
+  background: #fff;
+  color: #6b4226;
+  font-size: 12px;
+}
+#empty-orders,
+#orders-total { text-align: center; }
+#orders-total { color: #6b4226; font-weight: 700; }
+#clear-orders { background: #fff; color: #6b4226; }
+
+/* 작은 화면에서는 여백을 줄여 주문서를 편하게 읽도록 합니다. */
+@media (max-width: 400px) {
+  body {
+    padding: 24px 12px;
+  }
+
+  form {
+    padding: 20px 16px;
+  }
+
+  fieldset {
+    padding: 10px;
+    gap: 10px 6px;
+  }
+}

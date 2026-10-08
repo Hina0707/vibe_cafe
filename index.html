@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바이브 카페 주문서</title>
+  <!-- 스타일과 기능은 별도 파일에서 추가합니다. -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase 라이브러리를 먼저 불러온 뒤 주문 기능을 실행합니다. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- 카페 소개 -->
+  <header>
+    <h1 aria-label="카페 로고">☕</h1>
+    <h2>바이브 카페</h2>
+    <!-- 탭 버튼으로 주문서와 주문 내역을 전환합니다. -->
+    <nav class="tabs" role="tablist" aria-label="카페 메뉴">
+      <button type="button" id="order-tab" class="tab-button active" role="tab" aria-selected="true" aria-controls="order-panel">☕ 주문하기</button>
+      <button type="button" id="history-tab" class="tab-button" role="tab" aria-selected="false" aria-controls="history-panel">📋 주문 내역 <span id="order-count" class="order-count">0</span></button>
+    </nav>
+    <p>당신의 하루에 바이브를 더하다</p>
+  </header>
+
+  <main>
+    <section id="order-panel" role="tabpanel" aria-labelledby="order-tab">
+    <!-- 이름 필수 검사는 추후 JavaScript에서 처리합니다. -->
+    <form id="order-form" novalidate>
+      <div>
+        <label for="customer-name">이름 (필수)</label>
+        <input type="text" id="customer-name" name="customerName" required>
+      </div>
+      <div>
+        <label for="phone">전화번호</label>
+        <input type="tel" id="phone" name="phone">
+      </div>
+      <div>
+        <label for="drink">음료 선택</label>
+        <select id="drink" name="drink">
+          <option value="" data-price="0">-- 음료를 선택하세요 --</option>
+          <option value="americano" data-price="3500">아메리카노 3,500원</option>
+          <option value="cafe-latte" data-price="4000">카페라떼 4,000원</option>
+          <option value="cafe-mocha" data-price="4500">카페모카 4,500원</option>
+          <option value="vanilla-latte" data-price="4500">바닐라라떼 4,500원</option>
+          <option value="green-tea-latte" data-price="4500">녹차라떼 4,500원</option>
+        </select>
+      </div>
+
+      <!-- 사이즈별 추가 금액 -->
+      <fieldset>
+        <legend>사이즈</legend>
+        <input type="radio" id="size-s" name="size" value="S" data-price="0">
+        <label for="size-s">S +0원</label>
+        <input type="radio" id="size-m" name="size" value="M" data-price="500" checked>
+        <label for="size-m">M +500원</label>
+        <input type="radio" id="size-l" name="size" value="L" data-price="1000">
+        <label for="size-l">L +1,000원</label>
+      </fieldset>
+
+      <!-- 추가 옵션별 금액 -->
+      <fieldset>
+        <legend>추가 옵션</legend>
+        <input type="checkbox" id="extra-shot" name="extras" value="shot" data-price="500">
+        <label for="extra-shot">샷 추가 +500원</label>
+        <input type="checkbox" id="extra-cream" name="extras" value="cream" data-price="500">
+        <label for="extra-cream">크림 추가 +500원</label>
+        <input type="checkbox" id="extra-syrup" name="extras" value="syrup" data-price="300">
+        <label for="extra-syrup">시럽 추가 +300원</label>
+        <input type="checkbox" id="extra-decaf" name="extras" value="decaf" data-price="0">
+        <label for="extra-decaf">디카페인 +0원</label>
+      </fieldset>
+
+      <div>
+        <label for="quantity">수량</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+      </div>
+      <div>
+        <label for="requests">요청사항</label>
+        <textarea id="requests" name="requests"></textarea>
+      </div>
+
+      <!-- 예상 금액은 추후 JavaScript에서 계산합니다. -->
+      <p id="estimated-price" aria-live="polite">예상 금액: 0원</p>
+      <button type="submit">주문하기</button>
+      <button type="reset">다시 작성</button>
+
+      <!-- 주문 확인 메시지를 표시할 영역 -->
+      <div id="order-confirmation" aria-live="polite" hidden></div>
+    </form>
+    </section>
+    <!-- 주문 목록은 JavaScript에서 안전하게 생성합니다. -->
+    <section id="history-panel" class="hidden" role="tabpanel" aria-labelledby="history-tab">
+      <p id="empty-orders">아직 주문 내역이 없어요 ☕</p>
+      <div id="orders-list"></div>
+      <div id="history-summary" class="hidden">
+        <p id="drink-summary"></p>
+        <p id="orders-total">총 주문 금액: 0원 (0건)</p>
+        <button type="button" id="clear-orders">내역 모두 지우기</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
